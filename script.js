@@ -1,4 +1,5 @@
 let currentRoundFigure = 0;
+let ledgerValues = [];
 
 function formatCurrency(amount) {
     return new Intl.NumberFormat('en-IN', {
@@ -12,16 +13,13 @@ function calculateDiscount() {
     const originalPrice = parseFloat(document.getElementById('originalPrice').value) || 0;
     const discountPercent = parseFloat(document.getElementById('discountPercentage').value) || 0;
 
-    // Logic Calculations
     const discountAmount = (originalPrice * discountPercent) / 100;
     const finalPrice = originalPrice - discountAmount;
     currentRoundFigure = Math.round(finalPrice);
 
-    // Update UI elements instantly
     document.getElementById('discountAmount').innerText = formatCurrency(discountAmount);
     document.getElementById('finalPrice').innerText = formatCurrency(finalPrice);
     
-    // Format round figure without decimals as seen in screenshot
     document.getElementById('roundFigure').innerText = new Intl.NumberFormat('en-IN', {
         style: 'currency',
         currency: 'INR',
@@ -29,31 +27,61 @@ function calculateDiscount() {
     }).format(currentRoundFigure);
 }
 
+// Focus helpers to wipe default placeholder values out
+function clearPlaceholder(element, defaultValue) {
+    if (element.value === defaultValue) {
+        element.value = '';
+    }
+}
+
+function restorePlaceholder(element, defaultValue) {
+    if (element.value.trim() === '') {
+        element.value = defaultValue;
+        calculateDiscount();
+    }
+}
+
 function addToLedger() {
+    // Only add if the value is greater than 0
+    if (currentRoundFigure <= 0) return;
+
+    ledgerValues.push(currentRoundFigure);
+    renderLedger();
+}
+
+function renderLedger() {
     const container = document.getElementById('ledgerContainer');
     
-    // Clear out placeholder text on first entry insertion
-    if (container.classList.contains('ledger-placeholder')) {
-        container.innerHTML = '<div class="ledger-list"></div>';
-        container.classList.remove('ledger-placeholder');
+    if (ledgerValues.length === 0) {
+        container.innerHTML = 'Tap the ↓ button to add the round figure here.';
+        container.classList.add('ledger-placeholder');
+        return;
     }
+
+    container.classList.remove('ledger-placeholder');
     
-    const list = container.querySelector('.ledger-list');
-    const newItem = document.createElement('div');
-    newItem.className = 'ledger-item';
+    // Joint items using standard arithmetic display
+    const formulaString = ledgerValues.join(' + ');
+    const totalSum = ledgerValues.reduce((sum, val) => sum + val, 0);
     
-    const formattedVal = new Intl.NumberFormat('en-IN', {
+    const formattedTotal = new Intl.NumberFormat('en-IN', {
         style: 'currency',
         currency: 'INR',
         maximumFractionDigits: 0
-    }).format(currentRoundFigure);
-    
-    newItem.innerText = `Added: ${formattedVal}`;
-    list.appendChild(newItem);
-    
-    // Auto Scroll Ledger to view latest entries
-    container.scrollTop = container.scrollHeight;
+    }).format(totalSum);
+
+    container.innerHTML = `
+        <div class="formula-container">
+            <div class="formula-line">${formulaString}</div>
+            <div class="total-line">Total: ${formattedTotal}</div>
+        </div>
+    `;
 }
 
-// Initial display execution on load
+function clearLedger() {
+    ledgerValues = [];
+    renderLedger();
+}
+
+// Initial default configuration execution
 calculateDiscount();

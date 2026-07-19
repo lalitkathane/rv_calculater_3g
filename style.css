@@ -16,12 +16,12 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
     display: flex;
     justify-content: center;
-    padding: 16px;
+    padding: 12px;
 }
 
 .calculator-container {
@@ -29,37 +29,36 @@ body {
     max-width: 480px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding-bottom: 40px;
+    gap: 12px;
+    padding-bottom: 30px;
 }
 
 .app-header h2 {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-primary);
-    padding: 8px 4px;
+    padding: 4px;
 }
 
 /* Card Styling */
 .input-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px 24px;
+    border-radius: 14px;
+    padding: 16px 20px;
     box-shadow: var(--card-shadow);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
-/* Matching the teal bordered focus item in the screenshot */
 .input-card.dynamic-focus {
     border: 2px solid #2dd4bf;
     box-shadow: 0 0 0 1px #2dd4bf;
 }
 
 .input-card label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--text-muted);
@@ -76,33 +75,32 @@ input[type="number"] {
     width: 100%;
     border: none;
     outline: none;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 700;
     text-align: right;
     color: var(--accent-color);
     background: transparent;
 }
 
-/* Target fields that don't take direct typing text color */
-.readonly-card input[type="number"], 
+/* Read-only values text color formatting */
 .readonly-card .value-display {
     color: #475569;
 }
 
 .currency-symbol, .unit-symbol {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--accent-color);
 }
 
 .unit-symbol {
     color: #475569;
-    margin-left: 6px;
-    font-size: 1.2rem;
+    margin-left: 4px;
+    font-size: 1.1rem;
 }
 
 .value-display {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 700;
     text-align: right;
 }
@@ -122,7 +120,7 @@ input[type="number"] {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
 }
 
 .highlight-text {
@@ -135,49 +133,77 @@ input[type="number"] {
     color: white;
     border: none;
     border-radius: 12px;
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.add-ledger-btn:hover {
-    background-color: #0f766e;
+/* Ledger Header and Buttons */
+.ledger-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
-/* Ledger Box */
+.clear-ledger-btn {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 .ledger-card {
     background-color: #f8fafc;
     border: 1px dashed #cbd5e1;
-    border-radius: 16px;
-    padding: 20px 24px;
+    border-radius: 14px;
+    padding: 16px 20px;
 }
 
 .ledger-placeholder {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #94a3b8;
     font-style: italic;
-    margin-top: 8px;
 }
 
-.ledger-list {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-height: 150px;
-    overflow-y: auto;
-}
-
-.ledger-item {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #334155;
+/* Single line landscape formula styles */
+.formula-container {
     background: #ffffff;
-    padding: 8px 12px;
+    padding: 12px;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formula-line {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #475569;
+    word-break: break-all;
+    line-height: 1.4;
+}
+
+.total-line {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 6px;
+}
+
+/* Scale text sizes down for extra small mobile widths */
+@media (max-width: 360px) {
+    input[type="number"], .value-display, .currency-symbol {
+        font-size: 1.2rem;
+    }
+    .input-card {
+        padding: 12px 16px;
+    }
 }

@@ -17,14 +17,14 @@
             <label for="originalPrice">ORIGINAL PRICE</label>
             <div class="input-wrapper">
                 <span class="currency-symbol">₹</span>
-                <input type="number" id="originalPrice" value="0.00" step="0.01" oninput="calculateDiscount()">
+                <input type="number" id="originalPrice" value="0.00" step="0.01" oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0.00')" onblur="restorePlaceholder(this, '0.00')">
             </div>
         </div>
 
         <div class="input-card">
             <label for="discountPercentage">DISCOUNT</label>
             <div class="input-wrapper">
-                <input type="number" id="discountPercentage" value="0" min="0" max="100" oninput="calculateDiscount()">
+                <input type="number" id="discountPercentage" value="0" min="0" max="100" oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0')" onblur="restorePlaceholder(this, '0')">
                 <span class="unit-symbol">%</span>
             </div>
         </div>
@@ -56,7 +56,10 @@
 
         <!-- Running Ledger Display -->
         <div class="ledger-card">
-            <label>RUNNING LEDGER</label>
+            <div class="ledger-header">
+                <label>RUNNING LEDGER</label>
+                <button class="clear-ledger-btn" onclick="clearLedger()">Clear Ledger</button>
+            </div>
             <div id="ledgerContainer" class="ledger-placeholder">
                 Tap the ↓ button to add the round figure here.
             </div>
