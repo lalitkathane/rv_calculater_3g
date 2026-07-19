@@ -1,0 +1,183 @@
+:root {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-muted: #64748b;
+    --accent-color: #0d9488;
+    --accent-light: #ccfbf1;
+    --border-color: #e2e8f0;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+}
+
+.calculator-container {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 40px;
+}
+
+.app-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 8px 4px;
+}
+
+/* Card Styling */
+.input-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Matching the teal bordered focus item in the screenshot */
+.input-card.dynamic-focus {
+    border: 2px solid #2dd4bf;
+    box-shadow: 0 0 0 1px #2dd4bf;
+}
+
+.input-card label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+/* Inputs & Wrappers */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+input[type="number"] {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: right;
+    color: var(--accent-color);
+    background: transparent;
+}
+
+/* Target fields that don't take direct typing text color */
+.readonly-card input[type="number"], 
+.readonly-card .value-display {
+    color: #475569;
+}
+
+.currency-symbol, .unit-symbol {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.unit-symbol {
+    color: #475569;
+    margin-left: 6px;
+    font-size: 1.2rem;
+}
+
+.value-display {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: right;
+}
+
+.strong-text {
+    color: #0f172a;
+}
+
+/* Action row for round figure */
+.action-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-card > div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.highlight-text {
+    color: #0f172a;
+    text-align: left;
+}
+
+.add-ledger-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-ledger-btn:hover {
+    background-color: #0f766e;
+}
+
+/* Ledger Box */
+.ledger-card {
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 16px;
+    padding: 20px 24px;
+}
+
+.ledger-placeholder {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.ledger-list {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.ledger-item {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #334155;
+    background: #ffffff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}

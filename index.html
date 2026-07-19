@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RV Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <header class="app-header">
+            <h2>RV Calculator</h2>
+        </header>
+
+        <!-- Input Fields -->
+        <div class="input-card dynamic-focus">
+            <label for="originalPrice">ORIGINAL PRICE</label>
+            <div class="input-wrapper">
+                <span class="currency-symbol">₹</span>
+                <input type="number" id="originalPrice" value="0.00" step="0.01" oninput="calculateDiscount()">
+            </div>
+        </div>
+
+        <div class="input-card">
+            <label for="discountPercentage">DISCOUNT</label>
+            <div class="input-wrapper">
+                <input type="number" id="discountPercentage" value="0" min="0" max="100" oninput="calculateDiscount()">
+                <span class="unit-symbol">%</span>
+            </div>
+        </div>
+
+        <!-- Output Fields -->
+        <div class="input-card readonly-card">
+            <label>DISCOUNT AMT</label>
+            <div class="value-display" id="discountAmount">₹0.00</div>
+        </div>
+
+        <div class="input-card readonly-card">
+            <label>FINAL PRICE</label>
+            <div class="value-display strong-text" id="finalPrice">₹0.00</div>
+        </div>
+
+        <!-- Round Figure with Add Action -->
+        <div class="input-card action-card">
+            <div>
+                <label>ROUND FIGURE</label>
+                <div class="value-display highlight-text" id="roundFigure">₹0</div>
+            </div>
+            <button class="add-ledger-btn" onclick="addToLedger()" aria-label="Add to ledger">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Running Ledger Display -->
+        <div class="ledger-card">
+            <label>RUNNING LEDGER</label>
+            <div id="ledgerContainer" class="ledger-placeholder">
+                Tap the ↓ button to add the round figure here.
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
