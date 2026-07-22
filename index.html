@@ -1,71 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RV Calculator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RV Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="calculator-container">
-        <header class="app-header">
-            <h2>RV Calculator</h2>
-        </header>
+  <div class="calculator-container">
 
-        <!-- Input Fields -->
-        <div class="input-card dynamic-focus">
-            <label for="originalPrice">ORIGINAL PRICE</label>
-            <div class="input-wrapper">
-                <span class="currency-symbol">₹</span>
-                <input type="number" id="originalPrice" value="0.00" step="0.01" oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0.00')" onblur="restorePlaceholder(this, '0.00')">
-            </div>
-        </div>
+    <header class="app-header">
+      <div class="header-text">
+        <span class="eyebrow">Counter Calculator</span>
+        <h2>RV Calculator</h2>
+      </div>
+      <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleThemeMode()" aria-label="Toggle theme">
+        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.22" x2="5.64" y2="17.78"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </header>
 
-        <div class="input-card">
-            <label for="discountPercentage">DISCOUNT</label>
-            <div class="input-wrapper">
-                <input type="number" id="discountPercentage" value="0" min="0" max="100" oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0')" onblur="restorePlaceholder(this, '0')">
-                <span class="unit-symbol">%</span>
-            </div>
-        </div>
-
-        <!-- Output Fields -->
-        <div class="input-card readonly-card">
-            <label>DISCOUNT AMT</label>
-            <div class="value-display" id="discountAmount">₹0.00</div>
-        </div>
-
-        <div class="input-card readonly-card">
-            <label>FINAL PRICE</label>
-            <div class="value-display strong-text" id="finalPrice">₹0.00</div>
-        </div>
-
-        <!-- Round Figure with Add Action -->
-        <div class="input-card action-card">
-            <div>
-                <label>ROUND FIGURE</label>
-                <div class="value-display highlight-text" id="roundFigure">₹0</div>
-            </div>
-            <button class="add-ledger-btn" onclick="addToLedger()" aria-label="Add to ledger">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <polyline points="19 12 12 19 5 12"></polyline>
-                </svg>
-            </button>
-        </div>
-
-        <!-- Running Ledger Display -->
-        <div class="ledger-card">
-            <div class="ledger-header">
-                <label>RUNNING LEDGER</label>
-                <button class="clear-ledger-btn" onclick="clearLedger()">Clear Ledger</button>
-            </div>
-            <div id="ledgerContainer" class="ledger-placeholder">
-                Tap the ↓ button to add the round figure here.
-            </div>
-        </div>
+    <!-- Input Fields -->
+    <div class="input-card">
+      <label for="originalPrice">Original price</label>
+      <div class="input-wrapper">
+        <span class="currency-symbol">₹</span>
+        <input type="number" id="originalPrice" value="0.00" step="0.01"
+          inputmode="decimal"
+          oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0.00')"
+          onblur="restorePlaceholder(this, '0.00')">
+      </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="input-card">
+      <label for="discountPercentage">Discount</label>
+      <div class="input-wrapper">
+        <input type="number" id="discountPercentage" value="0" min="0" max="100"
+          inputmode="decimal"
+          oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0')"
+          onblur="restorePlaceholder(this, '0')">
+        <span class="unit-symbol">%</span>
+      </div>
+    </div>
+
+    <!-- Output Fields -->
+    <div class="output-row">
+      <div class="input-card readonly-card">
+        <label>Discount amt</label>
+        <div class="value-display" id="discountAmount">₹0.00</div>
+      </div>
+      <div class="input-card readonly-card">
+        <label>Final price</label>
+        <div class="value-display strong-text" id="finalPrice">₹0.00</div>
+      </div>
+    </div>
+
+    <!-- Round Figure with Add Action -->
+    <div class="input-card action-card">
+      <div>
+        <label>Round figure</label>
+        <div class="value-display highlight-text" id="roundFigure">₹0</div>
+      </div>
+      <button class="add-ledger-btn" onclick="addToLedger()" aria-label="Add to ledger">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Perforation: tears from calculator into the ledger -->
+    <div class="perforation" aria-hidden="true"></div>
+
+    <!-- Running Ledger Display -->
+    <div class="ledger-card">
+      <div class="ledger-header">
+        <label>Running ledger</label>
+        <button class="clear-ledger-btn" onclick="clearLedger()">Clear</button>
+      </div>
+      <div id="ledgerContainer" class="ledger-placeholder">
+        Stamp <strong>＋</strong> to add the round figure here.
+      </div>
+    </div>
+
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>

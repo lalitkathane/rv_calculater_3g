@@ -1,209 +1,355 @@
+/* ==========================================================
+   RV Calculator — "Counter Ledger" theme
+   A shop-counter tool, styled after a paper receipt book:
+   warm ledger paper, ink typography, a punched perforation,
+   and an ink-stamp action button.
+   ========================================================== */
+
 :root {
-    --bg-color: #f8fafc;
-    --card-bg: #ffffff;
-    --text-primary: #1e293b;
-    --text-muted: #64748b;
-    --accent-color: #0d9488;
-    --accent-light: #ccfbf1;
-    --border-color: #e2e8f0;
-    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  /* -- Paper & ink (light) -- */
+  --bg-color: #F4EEE0;
+  --card-bg: #FFFCF5;
+  --text-primary: #2A2420;
+  --text-muted: #857A6B;
+
+  /* -- Accents: turmeric (primary) + stamp teal (secondary) -- */
+  --accent-color: #C8862B;
+  --accent-color-strong: #A96D1D;
+  --accent-light: #F3DFB8;
+  --accent-2: #2F6F5E;
+  --accent-2-strong: #24564A;
+
+  --border-color: #E4D8C0;
+  --card-shadow: 0 2px 10px rgba(60, 44, 20, 0.07);
+  --focus-color: #C8862B;
+  --readonly-text: #5B5145;
+  --strong-text: #211C17;
+  --ledger-bg: #FBF6EA;
+  --ledger-border: #D8C9A8;
+  --danger: #B23A34;
+}
+
+/* Dark: ink on dark paper, not just an inverted grey */
+[data-theme="dark"] {
+  --bg-color: #14181A;
+  --card-bg: #1E2422;
+  --text-primary: #F1E9D8;
+  --text-muted: #9BA39A;
+
+  --accent-color: #E3A544;
+  --accent-color-strong: #F0B65E;
+  --accent-light: #3A2E17;
+  --accent-2: #57B79A;
+  --accent-2-strong: #6FCBAE;
+
+  --border-color: #2C3532;
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --readonly-text: #C9C0AE;
+  --strong-text: #FBF6EA;
+  --ledger-bg: #1A211F;
+  --ledger-border: #37423E;
+  --danger: #E0685F;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    display: flex;
-    justify-content: center;
-    padding: 12px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .calculator-container {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 30px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 30px;
+}
+
+/* ---------------- Header ---------------- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 2px 6px;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-2);
 }
 
 .app-header h2 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    padding: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
-/* Card Styling */
+.theme-toggle-btn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--accent-color);
+  padding: 9px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.theme-toggle-btn:hover { border-color: var(--accent-color); }
+.theme-toggle-btn:active { transform: scale(0.92); }
+
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+body:not([data-theme="dark"]) .sun-icon { display: none; }
+body:not([data-theme="dark"]) .moon-icon { display: block; }
+
+/* ---------------- Cards ---------------- */
 .input-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
-    padding: 16px 20px;
-    box-shadow: var(--card-shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
 }
 
-.input-card.dynamic-focus {
-    border: 2px solid #2dd4bf;
-    box-shadow: 0 0 0 1px #2dd4bf;
+.input-card.focused-card {
+  border: 1.5px solid var(--focus-color);
+  box-shadow: 0 0 0 3px var(--accent-light);
 }
 
 .input-card label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-/* Inputs & Wrappers */
+.output-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ---------------- Inputs ---------------- */
 .input-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
 }
 
-input[type="number"] {
-    width: 100%;
-    border: none;
-    outline: none;
-    font-size: 1.4rem;
-    font-weight: 700;
-    text-align: right;
-    color: var(--accent-color);
-    background: transparent;
+input[type="number"], input[type="text"] {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-align: right;
+  color: var(--accent-color);
+  background: transparent;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Read-only values text color formatting */
-.readonly-card .value-display {
-    color: #475569;
-}
+.readonly-card { opacity: 0.95; }
+.readonly-card .value-display { color: var(--readonly-text); }
 
-.currency-symbol, .unit-symbol {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--accent-color);
+.currency-symbol {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--accent-color);
 }
 
 .unit-symbol {
-    color: #475569;
-    margin-left: 4px;
-    font-size: 1.1rem;
+  color: var(--readonly-text);
+  margin-left: 4px;
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
 .value-display {
-    font-size: 1.4rem;
-    font-weight: 700;
-    text-align: right;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
-.strong-text {
-    color: #0f172a;
-}
+.strong-text { color: var(--strong-text); }
 
-/* Action row for round figure */
+/* ---------------- Round figure + stamp ---------------- */
 .action-card {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, var(--card-bg), var(--card-bg));
+  border-color: var(--accent-color);
 }
 
 .action-card > div {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .highlight-text {
-    color: #0f172a;
-    text-align: left;
+  color: var(--strong-text);
+  text-align: left;
+  font-size: 1.5rem;
 }
 
+/* The "ink stamp" button: a solid circle that presses down on tap */
 .add-ledger-btn {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  flex-shrink: 0;
+  background-color: var(--accent-2);
+  color: var(--card-bg);
+  border: 2px solid var(--accent-2-strong);
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--accent-2-strong);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-/* Ledger Header and Buttons */
+.add-ledger-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--accent-2-strong); }
+
+.add-ledger-btn:active,
+.add-ledger-btn.stamped {
+  transform: translateY(3px) scale(0.94);
+  box-shadow: 0 0 0 var(--accent-2-strong);
+}
+
+/* ---------------- Perforation (signature element) ---------------- */
+.perforation {
+  height: 16px;
+  margin: 2px 6px -6px;
+  background-color: var(--ledger-bg);
+  background-image: radial-gradient(circle 6px, var(--bg-color) 99%, transparent 100%);
+  background-position: 8px center;
+  background-size: 18px 100%;
+  background-repeat: repeat-x;
+  border-left: 1px dashed var(--ledger-border);
+  border-right: 1px dashed var(--ledger-border);
+}
+
+/* ---------------- Ledger ---------------- */
 .ledger-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 .clear-ledger-btn {
-    background: transparent;
-    border: none;
-    color: #ef4444;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  padding: 4px 6px;
 }
+.clear-ledger-btn:hover { text-decoration: underline; }
 
 .ledger-card {
-    background-color: #f8fafc;
-    border: 1px dashed #cbd5e1;
-    border-radius: 14px;
-    padding: 16px 20px;
+  background-color: var(--ledger-bg);
+  border: 1px solid var(--ledger-border);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  padding: 14px 18px 18px;
+  margin: 0 6px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ledger-placeholder {
-    font-size: 0.9rem;
-    color: #94a3b8;
-    font-style: italic;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.ledger-placeholder strong {
+  font-style: normal;
+  color: var(--accent-2);
 }
 
-/* Single line landscape formula styles */
 .formula-container {
-    background: #ffffff;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  background: var(--card-bg);
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .formula-line {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #475569;
-    word-break: break-all;
-    line-height: 1.4;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--readonly-text);
+  word-break: break-all;
+  line-height: 1.5;
 }
 
 .total-line {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #0f172a;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--strong-text);
+  border-top: 1px dashed var(--ledger-border);
+  padding-top: 8px;
 }
 
-/* Scale text sizes down for extra small mobile widths */
+/* ---------------- Small screens ---------------- */
 @media (max-width: 360px) {
-    input[type="number"], .value-display, .currency-symbol {
-        font-size: 1.2rem;
-    }
-    .input-card {
-        padding: 12px 16px;
-    }
+  input[type="number"], input[type="text"], .value-display, .currency-symbol {
+    font-size: 1.15rem;
+  }
+  .input-card { padding: 12px 14px; }
+  .output-row { gap: 8px; }
+}
+
+/* ---------------- Accessibility ---------------- */
+:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
 }
