@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RV Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator-container" id="app">
+
+    <!-- Header & Theme Switch -->
+    <header class="app-header">
+      <div class="header-text">
+        <span class="eyebrow">Calculator</span>
+        <h2>RV Calculator</h2>
+      </div>
+
+      <button id="themeToggleBtn"
+              class="theme-switch"
+              aria-label="Toggle theme"
+              role="switch"
+              aria-checked="false"
+              title="Toggle light / dark"
+              type="button">
+        <span class="switch-track" aria-hidden="true">
+          <span class="switch-icon icon-sun" aria-hidden="true">
+            <!-- Sun -->
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <circle cx="12" cy="12" r="4.5"></circle>
+              <line x1="12" y1="2.5" x2="12" y2="5"></line>
+              <line x1="12" y1="19" x2="12" y2="21.5"></line>
+              <line x1="2.5" y1="12" x2="5" y2="12"></line>
+              <line x1="19" y1="12" x2="21.5" y2="12"></line>
+              <line x1="5.1" y1="5.1" x2="6.9" y2="6.9"></line>
+              <line x1="17.1" y1="17.1" x2="18.9" y2="18.9"></line>
+              <line x1="5.1" y1="18.9" x2="6.9" y2="17.1"></line>
+              <line x1="17.1" y1="6.9" x2="18.9" y2="5.1"></line>
+            </svg>
+          </span>
+
+          <span class="switch-icon icon-moon" aria-hidden="true">
+            <!-- Moon -->
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 11.807A9.002 9.002 0 0 1 10.049 2a9.942 9.942 0 0 0-5.12 2.735c-3.905 3.905-3.905 10.237 0 14.142 3.906 3.906 10.237 3.905 14.143 0a9.946 9.946 0 0 0 2.735-5.119A9.003 9.003 0 0 1 12 11.807z"/>
+            </svg>
+          </span>
+
+          <span class="switch-thumb" aria-hidden="true"></span>
+        </span>
+      </button>
+    </header>
+
+    <!-- Input Fields -->
+    <div class="input-card">
+      <label for="originalPrice">Original price</label>
+      <div class="input-wrapper">
+        <span class="currency-symbol">₹</span>
+        <input type="number" id="originalPrice" value="0.00" step="0.01" min="0" inputmode="decimal"
+               oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0.00')" onblur="restorePlaceholder(this, '0.00')"
+               aria-label="Original price">
+      </div>
+    </div>
+
+    <div class="input-card">
+      <label for="discountPercentage">Discount</label>
+      <div class="input-wrapper">
+        <input type="number" id="discountPercentage" value="0" min="0" max="100" step="any" inputmode="decimal"
+               oninput="calculateDiscount()" onfocus="clearPlaceholder(this, '0')" onblur="restorePlaceholder(this, '0')"
+               aria-label="Discount percentage">
+        <span class="unit-symbol">%</span>
+      </div>
+    </div>
+
+    <!-- Output Fields -->
+    <div class="output-row">
+      <div class="input-card readonly-card" aria-live="polite">
+        <label id="lblDiscountAmt">Discount amt</label>
+        <div class="value-display" id="discountAmount" aria-labelledby="lblDiscountAmt">₹0.00</div>
+      </div>
+      <div class="input-card readonly-card" aria-live="polite">
+        <label id="lblFinalPrice">Final price</label>
+        <div class="value-display strong-text" id="finalPrice" aria-labelledby="lblFinalPrice">₹0.00</div>
+      </div>
+    </div>
+
+    <!-- Round Figure & Add Action -->
+    <div class="input-card action-card">
+      <div>
+        <label id="lblRoundFigure">Round figure</label>
+        <div class="value-display highlight-text" id="roundFigure" aria-labelledby="lblRoundFigure">₹0</div>
+      </div>
+      <button class="add-ledger-btn" onclick="addToLedger()" aria-label="Add to ledger">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="1" x2="12" y2="19"></line>
+    <polyline points="19 12 12 19 5 12"></polyline>
+  </svg>
+</button>
+    </div>
+
+    <!-- Receipt Perforation Cut -->
+    <div class="perforation" aria-hidden="true"></div>
+
+    <!-- Running Ledger Display -->
+    <div class="ledger-card" role="region" aria-labelledby="lblRunningLedger">
+      <div class="ledger-header">
+        <label id="lblRunningLedger">Running ledger</label>
+        <button class="clear-ledger-btn" onclick="clearLedger()" type="button">Clear</button>
+      </div>
+      <div id="ledgerContainer" class="ledger-placeholder" aria-live="polite" aria-labelledby="lblRunningLedger">
+        Stamp <strong>＋</strong> to add the round figure here.
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

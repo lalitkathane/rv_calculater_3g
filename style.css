@@ -1,0 +1,200 @@
+/* ==========================================================
+   RV Calculator — Refined Theme, hover, and border styles
+   ========================================================== */
+
+:root {
+  /* Light mode palette */
+  --bg-color: #F4EEE0;
+  --card-bg: #FFFCF5;
+  --text-primary: #2A2420;
+  --text-muted: #7A7063; /* darkened from #857A6B: was 3.9–4.1:1 on card/ledger bg, now ≥4.5:1 */
+
+  --accent-color: #9E6A22; /* darkened from #C8862B: was 2.97:1 on card-bg (fail), now 4.52:1 */
+  --accent-color-strong: #79511A; /* darkened from #A96D1D to preserve the hover/emphasis gap under the new base */
+  --accent-light: #F3DFB8;
+
+  --accent-2: #2F6F5E;
+  --accent-2-strong: #24564A;
+
+  --border-color: #E4D8C0;
+  --card-shadow: 0 2px 10px rgba(60,44,20,0.07);
+  --focus-color: #9E6A22; /* matched to new accent-color */
+  --readonly-text: #5B5145;
+  --strong-text: #211C17;
+  --ledger-bg: #FBF6EA;
+  --ledger-border: #D8C9A8;
+  --danger: #B23A34;
+
+  /* Color Highlights (Light Mode) */
+  --highlight-round: #12863D; /* darkened from #16A34A to clear 4.5:1 (the 18.4px "Total" text falls just under the large-text cutoff) */
+  --highlight-total: #12863D;
+
+  /* Hover tints */
+  --hover-accent: rgba(158,106,34,0.08); /* matched to new accent-color */
+  --hover-accent-2: rgba(47,111,94,0.12);
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --bg-color: #14181A;
+  --card-bg: #1E2422;
+  --text-primary: #F1E9D8;
+  --text-muted: #9BA39A;
+
+  --accent-color: #E3A544;
+  --accent-color-strong: #F0B65E;
+  --accent-light: #3A2E17;
+
+  --accent-2: #57B79A;
+  --accent-2-strong: #6FCBAE;
+
+  --border-color: #2C3532;
+  --card-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  --focus-color: #6FCBAE;
+  --readonly-text: #C9C0AE;
+  --strong-text: #FBF6EA;
+  --ledger-bg: #1A211F;
+  --ledger-border: #37423E;
+  --danger: #E0685F;
+
+  /* Color Highlights (Dark Mode) */
+  --highlight-round: #4ADE80; /* Vibrant Green for Dark Mode */
+  --highlight-total: #4ADE80; /* Vibrant Green for Dark Mode */
+
+  --hover-accent: rgba(227,165,68,0.06);
+  --hover-accent-2: rgba(87,183,154,0.12);
+}
+
+
+/* Base reset */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background:var(--bg-color);
+  color:var(--text-primary);
+  display:flex;
+  justify-content:center;
+  padding:12px;
+  transition:background-color .22s ease,color .22s ease;
+}
+
+.calculator-container{
+  width:100%;
+  max-width:480px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding-bottom:30px;
+}
+
+/* Header */
+.app-header{display:flex;justify-content:space-between;align-items:center;padding:4px 2px 6px}
+.header-text{display:flex;flex-direction:column;gap:2px}
+.eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
+.app-header h2{font-family:'IBM Plex Mono', monospace;font-size:1.2rem;font-weight:600;color:var(--text-primary);letter-spacing:-.01em}
+
+/* Theme switch */
+.theme-switch{background:transparent;border:none;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;outline:none}
+.switch-track{
+  position:relative;width:58px;height:32px;border-radius:999px;background-color:var(--accent-light);border:1.5px solid var(--border-color);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 7px;transition:background-color .22s ease,border-color .22s ease;
+}
+.switch-track:hover{background-color:var(--hover-accent);border-color:var(--accent-color-strong)}
+[data-theme="dark"] .switch-track{background-color:#10312A;border-color:#24564A;box-shadow:inset 0 2px 4px rgba(0,0,0,0.4)}
+[data-theme="dark"] .switch-track:hover{background-color:var(--hover-accent-2);border-color:var(--accent-2-strong)}
+
+.switch-icon{display:flex;align-items:center;justify-content:center;z-index:1;width:16px;height:16px;transition:color .25s ease,opacity .25s ease}
+.icon-sun{color:var(--accent-color)}
+.icon-moon{color:var(--text-muted)}
+[data-theme="dark"] .icon-sun{color:var(--text-muted)}
+[data-theme="dark"] .icon-moon{color:var(--accent-2-strong)}
+
+.switch-thumb{
+  position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background-color:var(--card-bg);border:1px solid var(--border-color);box-shadow:0 2px 5px rgba(0,0,0,0.2);transition:transform .28s cubic-bezier(.4,0,.2,1),background-color .22s ease,border-color .22s ease;z-index:2;
+}
+[data-theme="dark"] .switch-thumb{transform:translateX(26px);background-color:#1E2422;border-color:var(--accent-2)}
+
+/* Cards */
+.input-card{
+  background:var(--card-bg);border:1.5px solid var(--border-color);border-radius:14px;padding:14px 18px;box-shadow:var(--card-shadow);display:flex;flex-direction:column;gap:5px;transition:border-color .15s ease,box-shadow .15s ease,background-color .2s ease;
+}
+.input-card:hover{border-color:var(--accent-color)}
+.input-card.focused-card{border:1.5px solid var(--focus-color);box-shadow:0 0 0 3px var(--hover-accent)}
+
+.input-card label{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)}
+.output-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Inputs */
+.input-wrapper{display:flex;align-items:center;justify-content:space-between;gap:6px}
+input[type="number"],input[type="text"]{width:100%;border:none;outline:none;font-family:'IBM Plex Mono',monospace;font-size:1.35rem;font-weight:600;text-align:right;color:var(--accent-color);background:transparent;font-variant-numeric:tabular-nums}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type="number"]{-moz-appearance:textfield}
+
+.readonly-card{opacity:.95}
+.readonly-card .value-display{color:var(--readonly-text)}
+
+.currency-symbol{font-family:'IBM Plex Mono',monospace;font-size:1.3rem;font-weight:600;color:var(--accent-color)}
+.unit-symbol{color:var(--readonly-text);margin-left:4px;font-size:1.05rem;font-weight:600}
+
+.value-display{font-family:'IBM Plex Mono',monospace;font-size:1.3rem;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.strong-text{color:var(--strong-text)}
+
+/* Green highlight for Round Figure */
+.highlight-text{color:var(--highlight-round);text-align:left;font-size:1.5rem}
+
+/* Action button */
+.action-card{flex-direction:row;justify-content:space-between;align-items:center;background:linear-gradient(180deg,var(--card-bg),var(--card-bg));border-color:var(--accent-color)}
+.action-card>div{flex-grow:1;display:flex;flex-direction:column;gap:2px}
+
+.add-ledger-btn {
+  flex-shrink: 0;
+  background-color: var(--accent-2);
+  color: var(--card-bg);
+  border: 2px solid var(--accent-2-strong);
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.add-ledger-btn:active,
+.add-ledger-btn.stamped {
+  transform: translateY(3px) scale(0.94);
+  box-shadow: 0 0 0 var(--accent-2-strong);
+}
+
+
+.add-ledger-btn:active,.add-ledger-btn.stamped{transform:translateY(3px) scale(.94);box-shadow:none}
+
+/* Perforation */
+.perforation{height:16px;margin:2px 6px -6px;background-color:var(--ledger-bg);background-image:radial-gradient(circle 6px,var(--bg-color) 99%,transparent 100%);background-position:8px center;background-size:18px 100%;background-repeat:repeat-x;border-left:1px dashed var(--ledger-border);border-right:1px dashed var(--ledger-border)}
+
+/* Ledger */
+.ledger-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.clear-ledger-btn{background:transparent;border:none;color:var(--danger);font-size:.75rem;font-weight:600;letter-spacing:.03em;cursor:pointer;padding:4px 6px;transition:opacity .18s ease}
+.clear-ledger-btn:hover{opacity:0.8;text-decoration:underline}
+
+.ledger-card{background-color:var(--ledger-bg);border:1px solid var(--ledger-border);border-top:none;border-radius:0 0 14px 14px;padding:14px 18px 18px;margin:0 6px;transition:background-color .2s ease,border-color .2s ease}
+.ledger-placeholder{font-size:.88rem;color:var(--text-muted);font-style:italic}
+.ledger-placeholder strong{font-style:normal;color:var(--accent-2)}
+
+.formula-container{background:var(--card-bg);padding:12px 14px;border-radius:8px;border:1px solid var(--border-color);display:flex;flex-direction:column;gap:8px}
+.formula-line{font-family:'IBM Plex Mono',monospace;font-size:.95rem;font-weight:500;color:var(--readonly-text);word-break:break-all;line-height:1.5}
+
+/* Green highlight for Running Ledger Total */
+.total-line{font-family:'IBM Plex Mono',monospace;font-size:1.15rem;font-weight:700;color:var(--highlight-total);border-top:1px dashed var(--ledger-border);padding-top:8px}
+
+/* Small displays */
+@media (max-width:360px){
+  input[type="number"],input[type="text"],.value-display,.currency-symbol{font-size:1.15rem}
+  .input-card{padding:12px 14px}
+  .output-row{gap:8px}
+}
+
+/* Accessibility focus */
+:focus-visible{outline:2px solid var(--focus-color);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
